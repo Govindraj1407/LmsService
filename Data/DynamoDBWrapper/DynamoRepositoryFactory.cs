@@ -29,7 +29,7 @@ namespace DynamoDBWrapper
             RegionEndpoint = RegionEndpoint.GetBySystemName("us-east-2")
          };
 
-         var awsClient = new AmazonDynamoDBClient(dbConfig);
+         var awsClient = new AmazonDynamoDBClient("AKIAUW3IT5IXQBYDWY63", "+Nw7xaTAPKUH4L7E/dQ8i2awUCiUNVGeeW48Og3h", dbConfig);
          this.client = new DynamoDBWrapper(
             awsClient,
             loggerFactory.CreateLogger<DynamoDBWrapper>(),

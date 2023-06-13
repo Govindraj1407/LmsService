@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["LmsService.csproj", "."]
-RUN dotnet restore "./LmsService.csproj"
+COPY ["E-LMS.csproj", "."]
+RUN dotnet restore "./E-LMS.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "LmsService.csproj" -c Release -o /app/build
+RUN dotnet build "E-LMS.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "LmsService.csproj" -c Release -o /app/publish
+RUN dotnet publish "E-LMS.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "LmsService.dll"]
+ENTRYPOINT ["dotnet", "E-LMS.dll"]

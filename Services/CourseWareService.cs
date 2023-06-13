@@ -14,10 +14,6 @@ namespace Services
 {
     public class CourseWareService : ICourseWareService
     {
-        ///// <summary>
-        ///// Pricing document db repository
-        ///// </summary>
-        //private readonly IUserDocumentDbRepository userDocumentDbRepository;
 
         /// <summary>
         /// Gets or sets dynamo DB repository
@@ -35,14 +31,12 @@ namespace Services
         {
             try
             {
-                var attributes = new List<string>() { "CourseId", "CourseName", "CourseContent", "SubTopics", "UserId" };
-
                 var course = await this.dynamoDBRepository.GetAsync(id);
                 return course;
             }
             catch(Exception ex)
             {
-                throw new Exception("Error occured when get course", ex);
+                throw new Exception("Error occured when get a course", ex);
             }
             
         }

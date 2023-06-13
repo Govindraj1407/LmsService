@@ -11,5 +11,12 @@ namespace Services
     public interface IUserService
     {
         public Task<string> CreateUser(User user);
+        public Task<string> UpdateUser(User user);
+
+        public Task<string> DeleteUser(int userId);
+
+        public Task<IEnumerable<User>> GetAllUser();
+
+        public Task<User> GetUser(int id);
     }
 }

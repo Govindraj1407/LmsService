@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vtNSKDcaTpxfxNUDBCs/cuTrtsL81WLWoYpzybd/dkND/tfvRZ6iCz+najBqbpjTTh5Hdxd06oHeFJqb3l7Orw==",
+  "dgSpecHash": "Ed3LGfsl5fb+sYU/uMGfwY5HGkU4P/xszkzE2i5mhpbae8C471A25OzxYmAYoDRRwVWd9QKPsZ222pfSRAprGA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\2025865\\source\\repos\\E-LMS\\E-LMS.csproj",
+  "projectFilePath": "C:\\Users\\2025865\\source\\repos\\LmsService\\E-LMS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\2025865\\.nuget\\packages\\autofac\\6.4.0\\autofac.6.4.0.nupkg.sha512",
     "C:\\Users\\2025865\\.nuget\\packages\\autofac.extensions.dependencyinjection\\8.0.0\\autofac.extensions.dependencyinjection.8.0.0.nupkg.sha512",
