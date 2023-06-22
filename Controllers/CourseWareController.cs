@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Services;
+﻿using Elms.Services;
+using Microsoft.AspNetCore.Mvc;
+using Models;
+using System;
 using System.Threading.Tasks;
-using LMS.ViewModels;
 
 namespace Controllers
 {
@@ -29,11 +30,11 @@ namespace Controllers
             return this.NoContent();
         }
 
-        [Route("{CourseId:int}/")]
+        [Route("{CourseId}/")]
         [HttpGet]
-        public async Task<IActionResult> Get(int CourseId)
+        public async Task<IActionResult> Get(string CourseId)
         {
-            if (CourseId > 0)
+            if (CourseId != null)
             {
                 var result = await this.courseService.GetCourse(CourseId);
 
@@ -51,13 +52,13 @@ namespace Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Course course)
         {
-            if(this.ModelState.IsValid)
+            course.CourseId = Guid.NewGuid().ToString();
+            if (this.ModelState.IsValid)
             {
                 var message = await this.courseService.CreateCourse(course);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "Course created successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {
@@ -80,8 +81,7 @@ namespace Controllers
                 var message = await this.courseService.UpdateCourse(course);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "Course updated successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {
@@ -95,17 +95,16 @@ namespace Controllers
 
         }
 
-        [Route("{CourseId:int}/")]
+        [Route("{CourseId}/")]
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string CourseId)
         {
             if (this.ModelState.IsValid)
             {
-                var message = await this.courseService.DeleteCourse(id);
+                var message = await this.courseService.DeleteCourse(CourseId);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "Course deleted successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {

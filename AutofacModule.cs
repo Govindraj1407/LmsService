@@ -6,7 +6,8 @@ namespace Configurations
 {
     using Autofac;
     using DynamoDBWrapper;
-    using global::Services;
+    using Repository;
+    using System.Reflection;
 
     /// <summary>
     /// Module for configuring dependency injection
@@ -27,20 +28,16 @@ namespace Configurations
       /// <param name="builder">builder</param>
       protected override void Load(ContainerBuilder builder)
       {
-            builder.RegisterType(typeof(UserService)).As(typeof(IUserService));
-            builder.Register(c => new CourseWareService(
-                    c.Resolve<IDynamoRepositoryFactory>()
-                    )
-                ).As(typeof(ICourseWareService));
-            //builder.RegisterType(typeof(DynamoDBRepository<string, User>)).As(typeof(IDynamoDBRepository<string, User>));
-            //builder.RegisterType(typeof(DynamoDBRepository<int, Course>)).As(typeof(IDynamoDBRepository<int, Course>));
-            //builder.RegisterType(typeof(DynamoRepositoryFactory)).As(typeof(IDynamoRepositoryFactory));
-            builder.RegisterDynamoClient();
-            //builder.RegisterType<DocumentDBConnectionFactory>()
-            //    .AsImplementedInterfaces()
-            //    .WithParameter("connectionString", "test")
-            //    .SingleInstance();
-            //builder.RegisterType(typeof(UserDocumentDbRepository)).As(typeof(IUserDocumentDbRepository));
+            //builder.RegisterType(typeof(UserService)).As(typeof(IUserService));
+            //builder.Register(c => new CourseWareService(
+            //        c.Resolve<IDynamoRepositoryFactory>()
+            //        )
+            //    ).As(typeof(ICourseWareService));
+            //builder.RegisterDynamoClient();
+            builder.RegisterAssemblyTypes(typeof(DynamoDBRepository).GetTypeInfo().Assembly).As<DynamoDBRepository>();
+            builder.RegisterAssemblyTypes(typeof(IDynamoTableConfig).GetTypeInfo().Assembly)
+            .AsImplementedInterfaces();
+            builder.RegisterType(typeof(CourseWareDynamoDBRepository)).As(typeof(ICourseWareDynamoDBRepository));
         }
     }
 }

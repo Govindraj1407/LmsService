@@ -1,22 +1,21 @@
-﻿using System;
+﻿using Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using ViewModels;
 
-namespace Services
+namespace Elms.Services
 {
     public interface IUserService
     {
         public Task<string> CreateUser(User user);
         public Task<string> UpdateUser(User user);
 
-        public Task<string> DeleteUser(int userId);
+        public Task<string> DeleteUser(string userId);
 
-        public Task<IEnumerable<User>> GetAllUser();
+        public Task<IEnumerable<UserViewModel>> GetAllUser();
 
-        public Task<User> GetUser(int id);
+        public Task<UserViewModel> GetUser(string id);
+
+        public Task<UserViewModel> VerifyLogin(string userName, string password);
     }
 }

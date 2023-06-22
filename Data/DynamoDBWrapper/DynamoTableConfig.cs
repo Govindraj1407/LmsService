@@ -1,5 +1,5 @@
-﻿// <copyright file="DynamoTableConfig.cs" company="Trane Company">
-// Copyright (c) Trane Company. All rights reserved.
+﻿// <copyright file="DynamoTableConfig.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace DynamoDBWrapper

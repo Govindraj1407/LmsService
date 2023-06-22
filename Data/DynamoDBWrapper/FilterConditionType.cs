@@ -1,5 +1,5 @@
-﻿// <copyright file="FilterConditionType.cs" company="Trane Company">
-// Copyright (c) Trane Company. All rights reserved.
+﻿// <copyright file="FilterConditionType.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace DynamoDBWrapper
@@ -9,19 +9,8 @@ namespace DynamoDBWrapper
     /// </summary>
     public enum FilterConditionType
     {
-        /// <summary>
-        /// Attribute Without Operator
-        /// </summary>
         AttributeWithoutOperator,
-
-        /// <summary>
-        /// Attribute With Operator And Attribute Values
-        /// </summary>
         AttributeWithOperatorAndAttributeValues,
-
-        /// <summary>
-        /// Attribute With Operator And Values
-        /// </summary>
         AttributeWithOperatorAndValues
     }
 }

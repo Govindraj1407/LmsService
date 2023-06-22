@@ -1,22 +1,18 @@
-﻿using LMS.ViewModels;
-using System;
+﻿using Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Elms.Services
 {
     public interface ICourseWareService
     {
         public Task<string> CreateCourse(Course course);
         public Task<string> UpdateCourse(Course course);
 
-        public Task<string> DeleteCourse(int courseId);
+        public Task<string> DeleteCourse(string courseId);
 
         public Task<IEnumerable<Course>> GetAllCourse();
 
-        public Task<Course> GetCourse(int id);
+        public Task<Course> GetCourse(string id);
     }
 }

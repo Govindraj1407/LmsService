@@ -1,5 +1,5 @@
-﻿// <copyright file="ScanFilterCondition.cs" company="Trane Company">
-// Copyright (c) Trane Company. All rights reserved.
+﻿// <copyright file="ScanFilterCondition.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace DynamoDBWrapper
@@ -53,34 +53,16 @@ namespace DynamoDBWrapper
             this.DynamoDBEntry = values;
         }
 
-        /// <summary>
-        /// Gets or sets AttributeName
-        /// </summary>
         public string AttributeName { get; set; }
 
-        /// <summary>
-        /// Gets or sets ScanOperator
-        /// </summary>
         public ScanOperator ScanOperator { get; set; }
 
-        /// <summary>
-        /// Gets or sets Condition
-        /// </summary>
         public Condition Condition { get; set; }
 
-        /// <summary>
-        /// Gets or sets DynamoDBEntry
-        /// </summary>
         public DynamoDBEntry[] DynamoDBEntry { get; set; }
 
-        /// <summary>
-        /// Gets or sets AttributeValues
-        /// </summary>
         public List<AttributeValue> AttributeValues { get; set; }
 
-        /// <summary>
-        /// Gets or sets Type
-        /// </summary>
         public FilterConditionType Type { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Services;
 using System.Threading.Tasks;
-using ViewModels;
+using Models;
+using System;
+using Elms.Services;
 
 namespace Controllers
 {
@@ -11,9 +12,15 @@ namespace Controllers
     {
         private readonly IUserService userService;
 
-        public UserController(IUserService userService)
+        /// <summary>
+        /// Gets or sets user course service
+        /// </summary>
+        private readonly IUserCourseService userCourseService;
+
+        public UserController(IUserService userService, IUserCourseService userCourseService)
         {
             this.userService = userService;
+            this.userCourseService = userCourseService;
         }
 
         [HttpGet]
@@ -29,13 +36,32 @@ namespace Controllers
             return this.NoContent();
         }
 
-        [Route("{UserId:int}/")]
+        [Route("{UserId}/")]
         [HttpGet]
-        public async Task<IActionResult> Get(int UserId)
+        public async Task<IActionResult> Get(string UserId)
         {
-            if (UserId > 0)
+            if (UserId != null)
             {
                 var result = await this.userService.GetUser(UserId);
+
+                if (result != null)
+                {
+                    return this.Ok(result);
+                }
+
+                return this.NoContent();
+            }
+
+            return this.BadRequest("Invalid request, please check the request parameter.");
+        }
+
+        [Route("{UserId}/Courses")]
+        [HttpGet]
+        public async Task<IActionResult> GetCourse(string UserId)
+        {
+            if (UserId != null)
+            {
+                var result = await this.userCourseService.GetUserCourses(UserId);
 
                 if (result != null)
                 {
@@ -56,8 +82,7 @@ namespace Controllers
                 var message = await this.userService.CreateUser(user);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "User created successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {
@@ -80,8 +105,7 @@ namespace Controllers
                 var message = await this.userService.UpdateUser(user);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "User updated successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {
@@ -95,21 +119,43 @@ namespace Controllers
 
         }
 
-        [Route("{UserId:int}/")]
+        [Route("{UserId}/")]
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (this.ModelState.IsValid)
             {
                 var message = await this.userService.DeleteUser(id);
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = "User deleted successfully";
-                    return this.Ok(message);
+                    return this.Ok();
                 }
                 else
                 {
                     return this.BadRequest(message);
+                }
+            }
+            else
+            {
+                return this.BadRequest("Invalid request, please check the request parameter.");
+            }
+
+        }
+
+        [Route("Verify")]
+        [HttpGet]
+        public async Task<IActionResult> Verify(string username, string password)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await this.userService.VerifyLogin(username, password);
+                if (user != null)
+                {
+                    return this.Ok(user);
+                }
+                else
+                {
+                    return this.BadRequest("Login Failed");
                 }
             }
             else

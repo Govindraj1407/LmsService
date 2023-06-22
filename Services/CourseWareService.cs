@@ -1,52 +1,72 @@
-﻿using Core.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using DynamoDBWrapper;
-using LMS.ViewModels;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.Model;
+using Models;
+using Repository;
 
-namespace Services
+namespace Elms.Services
 {
     public class CourseWareService : ICourseWareService
     {
 
         /// <summary>
-        /// Gets or sets dynamo DB repository
+        /// Gets or sets dynamo DB course repository
         /// </summary>
-        private readonly IDynamoDBRepository<int, Course> dynamoDBRepository;
+        private readonly ICourseWareDynamoDBRepository dynamoDBCourseRepository;
 
-        public CourseWareService(IDynamoRepositoryFactory factory)
+        /// <summary>
+        /// Gets or sets user course service
+        /// </summary>
+        private readonly IUserCourseDynamoDBRepository dynamoDBUserCourseRepository;
+
+        /// <summary>
+        /// Gets or sets user course service
+        /// </summary>
+        //private readonly IUserCourseService userCourseService;
+
+        public CourseWareService(ICourseWareDynamoDBRepository dynamoDBCourseRepository, IUserCourseDynamoDBRepository dynamoDBUserCourseRepository)
         {
-            this.dynamoDBRepository = factory.Get<int, Course>(
-                "Course",
-                "CourseId");
+            this.dynamoDBCourseRepository = dynamoDBCourseRepository;
+            this.dynamoDBUserCourseRepository = dynamoDBUserCourseRepository;
+            //this.userCourseService = userCourseService;
         }
 
-        public async Task<Course> GetCourse(int id)
+        public async Task<Course> GetCourse(string id)
         {
             try
             {
-                var course = await this.dynamoDBRepository.GetAsync(id);
+                var course = await this.dynamoDBCourseRepository.GetCourse(id);
                 return course;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error occured when get a course", ex);
             }
-            
+
         }
 
         public async Task<IEnumerable<Course>> GetAllCourse()
         {
             try
             {
-                var conditions = new List<ScanFilterCondition>();
-                var courses = await this.dynamoDBRepository.ScanAsync(conditions);
+                var courses = await this.dynamoDBCourseRepository.GetAllCourse();
+                var userCourses = await this.dynamoDBUserCourseRepository.GetAllUserCourses();
+                var userCourseGroups = userCourses.GroupBy(n => n.CourseId)
+                         .Select(n => new
+                         {
+                             courseId = n.Key,
+                             StudentCount = n.Count()
+                         });
+                foreach (var course in courses)
+                {
+                    var userCourse = userCourseGroups.Where(x => x.courseId == course.CourseId);
+                    if (userCourse.Any())
+                    {
+                        course.StudentCount = userCourse.FirstOrDefault().StudentCount;
+                    }
+
+                }
                 return courses;
             }
             catch (Exception ex)
@@ -59,40 +79,38 @@ namespace Services
         {
             try
             {
-                await this.dynamoDBRepository.InsertAsync(course);
-                return string.Empty;
+                course.CourseId = Guid.NewGuid().ToString();
+                return await this.dynamoDBCourseRepository.CreateCourse(course);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                return "Course creation failed. Message:"+ exception.Message;
+                throw new Exception("Course creation failed. Message:" + exception.Message);
             }
-            
+
         }
 
         public async Task<string> UpdateCourse(Course course)
         {
             try
             {
-                await this.dynamoDBRepository.PartialUpdateCommandAsync(course);
-                return string.Empty;
+                return await this.dynamoDBCourseRepository.UpdateCourse(course);
             }
             catch (Exception exception)
             {
-                return "Course update failed. Message:" + exception.Message;
+                throw new Exception("Course update failed. Message:" + exception.Message);
             }
 
         }
 
-        public async Task<string> DeleteCourse(int courseId)
+        public async Task<string> DeleteCourse(string courseId)
         {
             try
             {
-                await this.dynamoDBRepository.DeleteAsync(courseId);
-                return string.Empty;
+                return await this.dynamoDBCourseRepository.DeleteCourse(courseId);
             }
             catch (Exception exception)
             {
-                return "Course update failed. Message:" + exception.Message;
+                throw new Exception("Course delete failed. Message:" + exception.Message);
             }
 
         }
