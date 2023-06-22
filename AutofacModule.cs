@@ -28,12 +28,6 @@ namespace Configurations
       /// <param name="builder">builder</param>
       protected override void Load(ContainerBuilder builder)
       {
-            //builder.RegisterType(typeof(UserService)).As(typeof(IUserService));
-            //builder.Register(c => new CourseWareService(
-            //        c.Resolve<IDynamoRepositoryFactory>()
-            //        )
-            //    ).As(typeof(ICourseWareService));
-            //builder.RegisterDynamoClient();
             builder.RegisterAssemblyTypes(typeof(DynamoDBRepository).GetTypeInfo().Assembly).As<DynamoDBRepository>();
             builder.RegisterAssemblyTypes(typeof(IDynamoTableConfig).GetTypeInfo().Assembly)
             .AsImplementedInterfaces();
