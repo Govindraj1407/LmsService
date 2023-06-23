@@ -1,8 +1,4 @@
-﻿// <copyright file="DynamoTableConfig.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace DynamoDBWrapper
+﻿namespace DynamoDBWrapper
 {
     using System;
 

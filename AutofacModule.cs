@@ -1,8 +1,4 @@
-﻿// <copyright file="AutofacModule.cs" company="Trane Company">
-// Copyright (c) Trane Company. All rights reserved.
-// </copyright>
-
-namespace Configurations
+﻿namespace Configurations
 {
     using Autofac;
     using DynamoDBWrapper;

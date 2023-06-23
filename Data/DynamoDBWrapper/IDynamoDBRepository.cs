@@ -1,8 +1,4 @@
-﻿// <copyright file="IDynamoDBRepository.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace DynamoDBWrapper
+﻿namespace DynamoDBWrapper
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

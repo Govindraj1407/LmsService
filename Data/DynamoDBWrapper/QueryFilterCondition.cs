@@ -1,8 +1,4 @@
-﻿// <copyright file="QueryFilterCondition.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace DynamoDBWrapper
+﻿namespace DynamoDBWrapper
 {
     using System.Collections.Generic;
     using Amazon.DynamoDBv2.DocumentModel;
